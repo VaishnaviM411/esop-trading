@@ -1,11 +1,9 @@
-output "fingerprint" {
-  value = data.aws_key_pair.vaishnavi_key.fingerprint
+output "private_key" {
+  value     = tls_private_key.private-key.private_key_pem
+  sensitive = true
 }
 
-output "name" {
-  value = data.aws_key_pair.vaishnavi_key.key_name
-}
-
-output "id" {
-  value = data.aws_key_pair.vaishnavi_key.id
+output "instance_public_ip" {
+  description = "Public IP address of the EC2 instance"
+  value       = aws_instance.app_server.public_ip
 }

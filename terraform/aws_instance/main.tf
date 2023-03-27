@@ -53,10 +53,21 @@ resource "aws_security_group" "allow_tls" {
   }
 }
 
+resource "tls_private_key" "private-key" {
+  algorithm = "RSA"
+  rsa_bits  = 4096
+}
+
+resource "aws_key_pair" "generated_key" {
+  key_name   = "gurukul_vaishnavi_key"
+  public_key = tls_private_key.private-key.public_key_openssh
+
+}
+
 resource "aws_instance" "app_server" {
   ami                         = "ami-00c39f71452c08778"
   instance_type               = "t2.micro"
-  key_name                    = data.aws_key_pair.vaishnavi_key.key_name
+  key_name                    = aws_key_pair.generated_key.key_name
   vpc_security_group_ids      = [aws_security_group.allow_tls.id]
   subnet_id                   = aws_subnet.main.id
   associate_public_ip_address = true
