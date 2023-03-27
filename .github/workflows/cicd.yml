@@ -44,7 +44,7 @@ jobs:
       key: ${{ steps.terraform_output.outputs.key }}
       public_ip: ${{ steps.terraform_output.outputs.public_ip }}
     env:
-      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY }}
       AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
     steps:
       - name: Checkout
