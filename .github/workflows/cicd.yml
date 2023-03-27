@@ -100,7 +100,10 @@ jobs:
           scp -o StrictHostKeyChecking=no "esop-0.1-all.jar" ec2-user@$SSH_HOST:~
           ssh -o StrictHostKeyChecking=no ec2-user@$SSH_HOST -t "sudo yum install java-17-amazon-corretto-headless -y"
           echo "installed java"
-          ssh -o StrictHostKeyChecking=no ec2-user@$SSH_HOST -t "sudo fuser -k 8080/tcp"
+          ssh-keyscan $SSH_HOST >> ~/.ssh/known_hosts
+          ssh -t ec2-user@$SSH_HOST "sudo fuser -k 8080/tcp"
+
+#          ssh -o StrictHostKeyChecking=no ec2-user@$SSH_HOST -t "sudo fuser -k 8080/tcp"
           echo "process killed"
           ssh -o StrictHostKeyChecking=no ec2-user@$SSH_HOST -t "sudo nohup java -jar esop-0.1-all.jar >/dev/null"
           echo "process running"
