@@ -93,7 +93,10 @@ jobs:
           SSH_HOST: ${{ needs.terraform.outputs.public_ip }}
         run: |
           eval `ssh-agent`
+          cd .ssh
+          ls
           echo "$SSH_PRIVATE_KEY" | tr -d '\r' | ssh-add - > /dev/null
+          ls
           scp -o StrictHostKeyChecking=no "esop-0.1-all.jar" ec2-user@$SSH_HOST:~
           #!/bin/bash
           pid=$(sudo lsof -n -i :80 -sTCP:LISTEN -t)
