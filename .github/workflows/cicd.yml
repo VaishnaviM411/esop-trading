@@ -84,8 +84,8 @@ jobs:
       - name: Setup java
         uses: actions/setup-java@v3
         with:
-            distribution: corretto
-            java-version: 17
+          distribution: corretto
+          java-version: 17
       - name: Download jar file
         uses: actions/download-artifact@v3
         with:
@@ -97,13 +97,10 @@ jobs:
         run: |
           eval `ssh-agent`
           echo "$SSH_PRIVATE_KEY" | tr -d '\r' | ssh-add - > /dev/null
-          echo "key added"
-          ssh-keyscan $SSH_HOST >> ~/.ssh/known_hosts
-          echo "added to known hosts"
-          scp "esop-0.1-all.jar" ec2-user@$SSH_HOST:~
-          echo "jar file copied"
-          ssh -t ec2-user@$SSH_HOST "sudo yum install java-17-amazon-corretto-headless -y"
+          scp -o StrictHostKeyChecking=no "esop-0.1-all.jar" ec2-user@$SSH_HOST:~
+          ssh -o StrictHostKeyChecking=no ec2-user@$SSH_HOST -t "sudo yum install java-17-amazon-corretto-headless -y"
           echo "installed java"
+          ssh-keyscan $SSH_HOST >> ~/.ssh/known_hosts
           ssh -t ec2-user@$SSH_HOST "pid=$(sudo fuser -v -n tcp 8080)" 
           #!/bin/sh
           if [$pid]
@@ -113,14 +110,13 @@ jobs:
           else
           echo "No process"
           fi
-          ssh ec2-user@$SSH_HOST -t "sudo nohup java -jar esop-0.1-all.jar >/dev/null"
+          ssh -o StrictHostKeyChecking=no ec2-user@$SSH_HOST -t "sudo nohup java -jar esop-0.1-all.jar >/dev/null"
           echo "process running"
           
           
 
       
           
-
 
 
 
