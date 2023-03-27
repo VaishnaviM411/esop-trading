@@ -38,8 +38,44 @@ jobs:
           name: esop-trading-1.0
           path: build/libs/esop-0.1-all.jar
 
+  terraform:
+    runs-on: ubuntu-latest
+    outputs:
+      key: ${{ steps.terraform_output.outputs.key }}
+      public_ip: ${{ steps.terraform_output.outputs.public_ip }}
+    env:
+      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+    steps:
+      - name: Checkout
+        id: checkout
+        uses: actions/checkout@v3
+
+      - name: Create aws_instance
+        id: create_instance
+        run: cd terraform/aws_instance; terraform init
+
+      - name: Setup Terraform
+        id: setup_terraform
+        uses: hashicorp/setup-terraform@v1
+        with:
+          terraform_wrapper: false
+
+      - name: Terraform Apply
+        id: terraform_apply
+        run: cd terraform/aws_instance; terraform apply -auto-approve -input=false
+
+      - name: Terraform Output
+        id: terraform_output
+        run: |
+          cd terraform/aws_instance
+          echo key=$(terraform output -raw private_key) >> $GITHUB_OUTPUT
+          echo public_ip=$(terraform output instance_public_ip) >> $GITHUB_OUTPUT
+
+
+
   deploy:
-    needs: "build"
+    needs: ["build", "terraform"]
     runs-on: ubuntu-latest
     steps:
       - name: Setup java
@@ -53,8 +89,8 @@ jobs:
           name: esop-trading-1.0
       - name: Copy jar on ec2 instance and run
         env:
-          SSH_PRIVATE_KEY: ${{ secrets.EC2_SSH_KEY }}
-          SSH_HOST: ${{ secrets.SSH_HOST }}
+          SSH_PRIVATE_KEY: ${{ needs.terraform.outputs.key }}
+          SSH_HOST: ${{ needs.terraform.outputs.public_ip }}
         run: |
           eval `ssh-agent`
           echo "$SSH_PRIVATE_KEY" | tr -d '\r' | ssh-add - > /dev/null
