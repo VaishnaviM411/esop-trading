@@ -97,9 +97,12 @@ jobs:
         run: |
           eval `ssh-agent`
           echo "$SSH_PRIVATE_KEY" | tr -d '\r' | ssh-add - > /dev/null
+          echo "key added"
           ssh-keyscan $SSH_HOST >> ~/.ssh/known_hosts
+          echo "added to known hosts"
           scp "esop-0.1-all.jar" ec2-user@$SSH_HOST:~
-          ssh ec2-user@$SSH_HOST -t "sudo yum install java-17-amazon-corretto-headless -y"
+          echo "jar file copied"
+          ssh -t ec2-user@$SSH_HOST "sudo yum install java-17-amazon-corretto-headless -y"
           echo "installed java"
           ssh -t ec2-user@$SSH_HOST "pid=$(sudo fuser -v -n tcp 8080)" 
           #!/bin/sh
