@@ -92,7 +92,7 @@ jobs:
           name: esop-trading-1.0
       - name: Copy jar on ec2 instance and run
         env:
-          SSH_PRIVATE_KEY: ${{ needs.terraform.outputs.key }}
+          SSH_PRIVATE_KEY: ${{ secrets.EC2_SSH_KEY }}
           SSH_HOST: ${{ needs.terraform.outputs.public_ip }}
         run: |
           eval `ssh-agent`
