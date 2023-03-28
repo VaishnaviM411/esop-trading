@@ -40,8 +40,6 @@ jobs:
           name: public_ip
           path: terraform/aws_instance/public_ip.txt
 
-
-
   cicd:
     needs: "terraform"
     uses: VaishnaviM411/esop-trading/.github/workflows/cicd.yml@vaishnavi
