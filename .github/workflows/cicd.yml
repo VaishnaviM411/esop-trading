@@ -107,7 +107,9 @@ jobs:
           ssh -o StrictHostKeyChecking=no ec2-user@$SSH_HOST -t "sudo yum install java-17-amazon-corretto-headless -y"
           echo "installed java"
           ssh-keyscan $SSH_HOST >> ~/.ssh/known_hosts
+          echo "host added"
           ssh -t ec2-user@$SSH_HOST "pid=$(sudo fuser -v -n tcp 8080)" 
+          echo "pid"
           #!/bin/sh
           if [$pid]
           then
