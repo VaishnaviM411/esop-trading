@@ -77,7 +77,7 @@ jobs:
         run: |
           eval `ssh-agent`
           echo "$SSH_PRIVATE_KEY" | tr -d '\r' | ssh-add - > /dev/null
-          ssh_host=$(echo $SSH_HOST | tr -d '"');
+          ssh_host=$(cat public_ip.txt | tr -d '"');
           scp -o StrictHostKeyChecking=no "esop-0.1-all.jar" ec2-user@$ssh_host:~
           ssh -o StrictHostKeyChecking=no ec2-user@$ssh_host -t 'sudo yum install java-17-amazon-corretto-headless -y;
           echo "installed java";
