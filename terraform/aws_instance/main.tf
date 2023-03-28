@@ -6,7 +6,7 @@ terraform {
     }
   }
   backend "s3" {
-    bucket  = "vaishnavi-gurukul"
+    bucket = "vaishnavi-gurukul"
     key     = "s3-bucket/terraform.tfstate"
     region  = "us-east-1"
     encrypt = true
