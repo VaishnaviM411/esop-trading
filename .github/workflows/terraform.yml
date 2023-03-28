@@ -31,7 +31,7 @@ jobs:
         id: terraform_output
         run: |
           cd terraform/aws_instance
-          public_ip=$(terraform output instance_public_ip) >> $GITHUB_OUTPUT
+          echo public_ip=$(terraform output instance_public_ip) >> $GITHUB_OUTPUT
 
 
   cicd:
