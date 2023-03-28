@@ -68,6 +68,12 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           name: esop-trading-1.0
+      - name: Download public_ip from artifacts
+        uses: actions/download-artifact@v3
+        with:
+          name: public_ip
+      - name: Cat file
+        run: cat public_ip.txt
       - name: Copy jar on ec2 instance and run
         env:
           SSH_PRIVATE_KEY: ${{ secrets.EC2_SSH_KEY }}
