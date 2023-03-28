@@ -36,6 +36,9 @@ jobs:
   cicd:
     needs: "terraform"
     uses: VaishnaviM411/esop-trading/.github/workflows/cicd.yml@vaishnavi
+    with:
+        public_ip: ${{ needs.terraform.outputs.public_ip }}
+
           
           
 
