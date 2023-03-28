@@ -32,7 +32,7 @@ jobs:
         run: |
           cd terraform/aws_instance
           touch public_ip.txt
-          echo public_ip=$(terraform output instance_public_ip) >> public_ip.txt
+          echo $(terraform output instance_public_ip) >> public_ip.txt
 
       - name: Copy ip address to artifacts
         uses: actions/upload-artifact@v3
