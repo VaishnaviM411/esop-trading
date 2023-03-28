@@ -51,12 +51,6 @@ jobs:
         id: checkout
         uses: actions/checkout@v3
 
-      - name: Initiate terraform for s3
-        run: cd terraform/s3-bucket; terraform init
-
-      - name: Create s3 bucket
-        run: cd terraform/s3-bucket; terraform apply -auto-approve -input=false
-
       - name: Create aws_instance
         id: create_instance
         run: cd terraform/aws_instance; terraform init
