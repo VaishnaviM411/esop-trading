@@ -31,8 +31,7 @@ jobs:
         id: terraform_output
         run: |
           cd terraform/aws_instance
-          touch public_ip.txt
-          echo $(terraform output instance_public_ip) >> $GITHUB_OUTPUT
+          public_ip=$(terraform output instance_public_ip) >> $GITHUB_OUTPUT
 
 
 
