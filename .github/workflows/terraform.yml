@@ -34,8 +34,6 @@ jobs:
           public_ip=$(terraform output instance_public_ip) >> $GITHUB_OUTPUT
 
 
-
-
   cicd:
     needs: "terraform"
     uses: VaishnaviM411/esop-trading/.github/workflows/cicd.yml@vaishnavi
