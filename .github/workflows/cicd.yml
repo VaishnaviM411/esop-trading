@@ -41,7 +41,6 @@ jobs:
   terraform:
     runs-on: ubuntu-latest
     outputs:
-      key: ${{ steps.terraform_output.outputs.key }}
       public_ip: ${{ steps.terraform_output.outputs.public_ip }}
     env:
       AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY }}
@@ -69,7 +68,6 @@ jobs:
         id: terraform_output
         run: |
           cd terraform/aws_instance
-          echo key=$(terraform output -raw private_key) >> $GITHUB_OUTPUT
           echo public_ip=$(terraform output instance_public_ip) | tr -d '"' >> $GITHUB_OUTPUT
 
 
