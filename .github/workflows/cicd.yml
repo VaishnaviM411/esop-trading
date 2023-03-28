@@ -17,6 +17,8 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v3
+        with:
+          ref: vaishnavi
       - name: Setup java
         uses: actions/setup-java@v3
         with:
@@ -30,6 +32,8 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v3
+        with:
+          ref: vaishnavi
       - name: Setup java
         uses: actions/setup-java@v3
         with:
@@ -50,6 +54,8 @@ jobs:
       - name: Checkout
         id: checkout
         uses: actions/checkout@v3
+        with:
+          ref: vaishnavi
       - name: Setup java
         uses: actions/setup-java@v3
         with:
