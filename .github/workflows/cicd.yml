@@ -124,7 +124,6 @@ jobs:
           fi
           echo "ifend";
           sudo nohup java -jar esop-0.1-all.jar >/dev/null;
-          echo "process running"'
           
           
 
