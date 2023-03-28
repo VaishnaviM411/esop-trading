@@ -6,10 +6,6 @@ on:
   pull_request:
     branch: "vaishnavi"
   workflow_call:
-    inputs:
-      public_ip:
-        required: true
-        type: string
     secrets:
       EC2_SSH_KEY:
         required: true
