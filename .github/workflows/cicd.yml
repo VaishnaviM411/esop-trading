@@ -23,12 +23,6 @@ jobs:
         id: create_instance
         run: cd terraform/aws_instance; terraform init
 
-      - name: Setup Terraform
-        id: setup_terraform
-        uses: hashicorp/setup-terraform@v1
-        with:
-          terraform_wrapper: false
-
       - name: Terraform Apply
         id: terraform_apply
         run: cd terraform/aws_instance; terraform apply -auto-approve -input=false
