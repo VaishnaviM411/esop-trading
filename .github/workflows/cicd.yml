@@ -77,6 +77,7 @@ jobs:
         
 
   deploy:
+    if: ${{ !failure() }}
     needs: ["build","instance_ip"]
     runs-on: ubuntu-latest
     steps:
