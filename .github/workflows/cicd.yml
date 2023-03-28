@@ -9,6 +9,10 @@ on:
     secrets:
       EC2_SSH_KEY:
         required: true
+    inputs:
+      public_ip:
+        required: true
+        type: string
 
 jobs:
   test:
@@ -46,8 +50,29 @@ jobs:
           name: esop-trading-1.0
           path: build/libs/esop-0.1-all.jar
 
+  instance_ip:
+    if: ${{ inputs.public_ip!='' }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+            ref: vaishnavi
+      - name: Check for input
+        env:
+          SSH_HOST: ${{ inputs.public_ip }}
+        run: |
+              touch public_ip.txt
+              echo $SSH_HOST >> public_ip.txt
+      - name: Upload public ip file
+        uses: actions/upload-artifact@v3
+        with:
+          name: public_ip
+          path: public_ip.txt
+        
+
   deploy:
-    needs: ["build"]
+    needs: ["build","instance_ip"]
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -73,7 +98,6 @@ jobs:
       - name: Copy jar on ec2 instance and run
         env:
           SSH_PRIVATE_KEY: ${{ secrets.EC2_SSH_KEY }}
-          SSH_HOST: ${{ inputs.public_ip }}
         run: |
           eval `ssh-agent`
           echo "$SSH_PRIVATE_KEY" | tr -d '\r' | ssh-add - > /dev/null
