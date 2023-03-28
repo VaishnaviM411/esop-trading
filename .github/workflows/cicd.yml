@@ -5,6 +5,7 @@ on:
     branch: "vaishnavi"
   pull_request:
     branch: "vaishnavi"
+  workflow_call:
 
 jobs:
   test:
