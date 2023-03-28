@@ -6,6 +6,10 @@ on:
   pull_request:
     branch: "vaishnavi"
   workflow_call:
+    inputs:
+      public_ip:
+        required: true
+        type: string
 
 jobs:
   test:
@@ -58,7 +62,7 @@ jobs:
       - name: Copy jar on ec2 instance and run
         env:
           SSH_PRIVATE_KEY: ${{ secrets.EC2_SSH_KEY }}
-          SSH_HOST: 54.161.194.36
+          SSH_HOST: ${{ inputs.public_ip }}
         run: |
           eval `ssh-agent`
           echo "$SSH_PRIVATE_KEY" | tr -d '\r' | ssh-add - > /dev/null
