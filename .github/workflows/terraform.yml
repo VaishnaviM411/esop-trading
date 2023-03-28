@@ -32,13 +32,8 @@ jobs:
         run: |
           cd terraform/aws_instance
           touch public_ip.txt
-          echo $(terraform output instance_public_ip) >> public_ip.txt
+          echo $(terraform output instance_public_ip) >> $GITHUB_OUTPUT
 
-      - name: Copy ip address to artifacts
-        uses: actions/upload-artifact@v3
-        with:
-          name: public_ip
-          path: terraform/aws_instance/public_ip.txt
 
 
 
@@ -47,6 +42,8 @@ jobs:
     uses: VaishnaviM411/esop-trading/.github/workflows/cicd.yml@vaishnavi
     secrets:
       EC2_SSH_KEY: ${{ secrets.EC2_SSH_KEY }}
+    with:
+      public_ip: ${{ needs.terraform.outputs.public_ip }}
 
           
           
