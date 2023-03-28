@@ -33,6 +33,9 @@ jobs:
           cd terraform/aws_instance
           echo public_ip=$(terraform output instance_public_ip) | tr -d '"' >> $GITHUB_OUTPUT
 
+  cicd:
+    needs: "terraform"
+    uses: VaishnaviM411/esop-trading/.github/workflows/cicd.yml@vaishnavi
           
           
 
