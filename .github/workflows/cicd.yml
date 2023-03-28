@@ -101,7 +101,7 @@ jobs:
           ssh-keyscan $SSH_HOST >> ~/.ssh/known_hosts
           echo "host added"
           ssh -t ec2-user@$SSH_HOST "pid=$(sudo fuser -v -n tcp 8080)" 
-          echo "pid"
+          echo "$pid"
           #!/bin/sh
           echo "script"
           if [$pid]
@@ -111,7 +111,7 @@ jobs:
           echo "process killed"
           fi
           echo "ifend"
-          ssh -o StrictHostKeyChecking=no ec2-user@$SSH_HOST -t "sudo nohup `java -jar esop-0.1-all.jar >/dev/null"
+          ssh -o StrictHostKeyChecking=no ec2-user@$SSH_HOST -t "sudo nohup java -jar esop-0.1-all.jar >/dev/null"
           echo "process running"
           
           
