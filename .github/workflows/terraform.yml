@@ -33,7 +33,7 @@ jobs:
           cd terraform/aws_instance
           echo "in aws_instance"
           touch public_ip.txt
-          pwd
+          readlink -f public_ip.txt
           echo "file created"
           echo $(terraform output instance_public_ip) >> public_ip.txt
           echo "ip saved"
