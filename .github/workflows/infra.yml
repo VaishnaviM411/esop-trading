@@ -1,4 +1,4 @@
-name: infra-creation
+name: infra
 
 on:
   push:
