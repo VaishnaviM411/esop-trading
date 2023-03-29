@@ -82,28 +82,17 @@ jobs:
         run: |
           eval `ssh-agent`
           echo "$SSH_PRIVATE_KEY" | tr -d '\r' | ssh-add - > /dev/null
-          echo "key added"
           ssh_host=$(cat public_ip.txt | tr -d '"');
-          echo "$ssh_host"
           scp -o StrictHostKeyChecking=no "esop-0.1-all.jar" ec2-user@$ssh_host:~
-          echo "file copied"
           ssh -o StrictHostKeyChecking=no ec2-user@$ssh_host -t 'sudo yum install java-17-amazon-corretto-headless -y;
-          echo "installed java";
           ssh-keyscan $ssh_host >> ~/.ssh/known_hosts;
-          echo "host added";
           pid=$(sudo fuser -v -n tcp 8080);
-          echo "$pid";
           #!/bin/sh;
-          echo "script";
           if [ $pid ]
             then
-            echo "then"
             sudo fuser -k -n tcp 8080  
-            echo "process killed"
           fi
-          echo "ifend";
           sudo nohup java -jar esop-0.1-all.jar >/dev/null;'
-          echo "running"
           
           
 
