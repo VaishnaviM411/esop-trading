@@ -32,12 +32,14 @@ jobs:
         run: |
           cd terraform/aws_instance
           echo "in aws_instance"
+          mkdir ip
+          cd ip
           touch public_ip.txt
           readlink -f public_ip.txt
           echo "file created"
           echo $(terraform output instance_public_ip) >> public_ip.txt
           echo "ip saved"
-          aws s3 sync public_ip.txt s3://vaishnavi-gurukul/s3-bucket
+          aws s3 sync . s3://vaishnavi-gurukul/s3-bucket
           echo "uploaded"
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY }}
