@@ -31,16 +31,21 @@ jobs:
         id: terraform_output
         run: |
           cd terraform/aws_instance
-          echo public_ip=$(terraform output instance_public_ip) >> $GITHUB_OUTPUT
-
+          touch public_ip.txt
+          echo $(terraform output instance_public_ip) >> public_ip.txt
+          aws s3 sync public_ip.txt s3://vaishnavi-gurukul/s3-bucket
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_DEFAULT_REGION: 'us-east-1'
 
   cicd:
     needs: "terraform"
     uses: VaishnaviM411/esop-trading/.github/workflows/cicd.yml@vaishnavi
     secrets:
       EC2_SSH_KEY: ${{ secrets.EC2_SSH_KEY }}
-    with:
-      public_ip: ${{ needs.terraform.outputs.public_ip }}
+      AWS_ACCESS_KEY: ${{ secrets.AWS_ACCESS_KEY }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
 
           
           
