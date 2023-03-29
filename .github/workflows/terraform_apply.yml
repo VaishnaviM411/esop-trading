@@ -6,6 +6,7 @@ on:
 jobs:
   terraform:
     runs-on: ubuntu-latest
+    environment: prod
     outputs:
       public_ip: ${{ steps.terraform_output.outputs.public_ip }}
     env:
