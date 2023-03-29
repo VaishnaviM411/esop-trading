@@ -37,6 +37,7 @@ jobs:
           touch public_ip.txt
           readlink -f public_ip.txt
           echo "file created"
+          echo $(terraform output instance_public_ip)
           echo $(terraform output instance_public_ip) >> public_ip.txt
           echo "ip saved"
           aws s3 sync . s3://vaishnavi-gurukul/s3-bucket
