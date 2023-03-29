@@ -16,6 +16,10 @@ jobs:
         id: checkout
         uses: actions/checkout@v3
 
+      - name: Terraform Init
+        id: terraform_init
+        run: cd terraform/aws_instance; terraform init
+
       - name: Terraform Apply
         id: terraform_apply
         run: cd terraform/aws_instance; terraform apply -auto-approve -input=false
