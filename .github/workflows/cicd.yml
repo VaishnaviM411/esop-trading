@@ -22,6 +22,14 @@ jobs:
         uses: actions/checkout@v3
         with:
           ref: vaishnavi
+      - name: download state file
+        run: |
+          aws s3 cp s3://vaishnavi-gurukul/s3-bucket/terraform.tfstate state.tfstate
+          cat state.tfstate
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_DEFAULT_REGION: 'us-east-1'
       - name: print input
         run: |
           echo ${{ inputs.public_ip }}
